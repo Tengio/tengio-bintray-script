@@ -1,38 +1,31 @@
-Tengio bintray Plugin
+Tengio bintray Script
 =====================
 
-Basic plugin to abstract company wide checkstyle configuration.
-
-Basic functionality of this plugin are:
-- This plugin reuse checkstyle plugin and inject the checkstyle task ans checkstyleMain to execute Checkstyle on an android project so there is no need of additional configuration.
-- Included in the jar and use as configuration includes the checkstyle.xml
+Script that simplify the bintray configuration for android libraries. The configuration is based on tengio usual configuration. 
+If you want to use something similar for your organization you can override all the bintray properties.
 
 Usage
 -----
 
 You can place this in your root build.gradle or you app build.gradle.
 
-Build script snippet for use in all Gradle versions:
+To use the script you just have to use ```apply from``` in the library module.
 
 ```
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath "gradle.plugin.com.tengio.gradle:tengio-checkstyle-plugin:1.0"
+apply from: 'https://raw.githubusercontent.com/Tengio/tengio-bintray-script/master/bintray.gradle'
+```
+
+You then need to add the following information for bintray:
+
+```
+project.version = "0.1.0"
+project.group = "com.tengio.android"
+
+bintray {
+  pkg {
+    name = 'project-name'
+    vcsUrl = 'https://github.com/Tengio/your-repo.git'
   }
 }
-
-apply plugin: "com.tengio.gradle.tengio-checkstyle-plugin"
 ```
 
-Build script snippet for new, incubating, plugin mechanism introduced in Gradle 2.1:
-
-```
-plugins {
-  id "com.tengio.gradle.tengio-checkstyle-plugin" version "1.0"
-}
-```
