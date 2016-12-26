@@ -18,8 +18,6 @@ apply from: 'https://raw.githubusercontent.com/Tengio/tengio-bintray-script/mast
 You then need to add the following information for bintray:
 
 ```
-project.version = "0.1.0"
-project.group = "com.tengio.android"
 
 bintray {
   pkg {
