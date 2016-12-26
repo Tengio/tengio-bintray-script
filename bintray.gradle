@@ -12,6 +12,9 @@ buildscript {
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
+project.version = android.defaultConfig.versionName
+project.group = "com.tengio.android"
+
 bintray {
     user = ''
     key = ''
@@ -42,9 +45,15 @@ task sourcesJar(type: Jar) {
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
+    failOnError false
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
 }
