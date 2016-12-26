@@ -1,0 +1,38 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+bintray {
+    user = ''
+    key = ''
+    if (project.hasProperty('BINTRAY_USER') && project.property('BINTRAY_KEY')) {
+        user = project.property('BINTRAY_USER')
+        key = project.property('BINTRAY_KEY')
+    }
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        userOrg = 'tengioltd'
+        licenses = ['Apache-2.0']
+    }
+}
+
+android.libraryVariants.all { variant ->
+    def name = variant.buildType.name
+    def task = project.tasks.create "jar${name.capitalize()}", Jar
+    task.dependsOn variant.javaCompile
+    task.from variant.javaCompile.destinationDir
+    artifacts.add('archives', task);
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
